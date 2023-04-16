@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <style>
+            /* CSS */
+            #panGesture {
+            background: skyblue;
+            height: 300px;
+            text-align: center;
+            font: 30px/300px Helvetica, Arial, sans-serif;
+            }
+
+/* top code for the tap gesture */
+
+            .container {
+                padding: 100px;
+                background-color: skyblue;
+                width: 500px;
+                height: 800px;
+                float: left;
+                border-style: solid black;
+            }
+
+            .h3{
+                text-color:black;
+            }
+
+            .draggable {
+                padding: 1rem;
+                background-color: white;
+                border: 5px;
+                border-style: solid;
+                cursor: move;
+                                /* helps move draggable. cursor: move; */
+            }
+
+            .draggable.dragging {
+                opacity: .100;
+            }
+
+
+        </style>
+
+        <title>Title</title>
+    </head>
+    <body>
+        <!-- HTML -->
+        <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+
+        <div id="panGesture"></div>
+
+<!--
+    top code for tap gesture bottom for the containers for the list
+ -->
+        <div class="container">
+            <h3>To Do</h3>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+            <p class="draggable" draggable="true" contenteditable="true">Type Here</p>
+
+        </div>
+
+        <div class="container">
+            <h3>Started</h3>
+        </div>
+
+        <div class="container">
+            <h3>Finished</h3>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            // JS
+            // src="https://hammerjs.github.io/dist/hammer.js">
+            var panGesture = document.getElementById('panGesture');
+
+            // create a simple instance
+            // by default, it only adds horizontal recognizers
+            var mc = new Hammer(panGesture);
+
+            // let the pan gesture support all directions.
+            // this will block the vertical scrolling on a touch-device while on the element
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+            // listen to events...
+            mc.on("panleft panright panup pandown tap press", function(ev) {
+                panGesture.textContent = ev.type +" gesture detected.";
+            });
+
+
+// top code is for my tap gesture at the top of my page
+
+                const draggables = document.querySelectorAll('.draggable')
+                const containers = document.querySelectorAll('.container')
+
+                draggables.forEach(draggable => {
+                    draggable.addEventListener('dragstart', () => {
+                        draggable.classList.add('dragging')
+                    })
+
+                    draggable.addEventListener('dragend', () => {
+                        draggable.classList.remove('dragging')
+                    })
+                })
+
+                containers.forEach(container => {
+                    container.addEventListener('dragover', e => {
+                        e.preventDefault()
+                        const draggable = document.querySelector('.dragging')
+                        container.appendChild(draggable)
+                    })
+                })
+
+
+
+        </script>
+    </body>
+</html>
